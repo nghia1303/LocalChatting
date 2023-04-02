@@ -16,6 +16,17 @@
             app:destination="@id/SecondFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_FirstFragment_to_serverChatFragment"
+            app:destination="@id/serverChatFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_serverChatFragment2"
+            app:destination="@id/serverChatFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_serverChatFragment3"
+            app:destination="@id/serverChatFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -31,5 +42,16 @@
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/serverChatFragment"
+        android:name="com.example.localchatting.ServerChatFragment"
+        android:label="fragment_server_chat"
+        tools:layout="@layout/fragment_server_chat" >
+        <action
+            android:id="@+id/action_serverChatFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
 </navigation>
