@@ -1,9 +1,6 @@
 package com.example.localchatting;
 
-
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,27 +11,27 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.localchatting.databinding.FragmentFirstBinding;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import kotlin.text.Regex;
 
 public class JoinChatFragment extends Fragment
 {
     private FragmentFirstBinding binding;
     private static final String IPV4_PATTERN_ALLOW_LEADING_ZERO = "(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}";
+    private final int messageID = -1;
+
     int duration = Toast.LENGTH_SHORT;
+    Pattern pattern = Pattern.compile(IPV4_PATTERN_ALLOW_LEADING_ZERO);
+    Matcher match = pattern.matcher(binding.editTextIP.getText().toString());
+    boolean valid = match.matches();
+    Toast toast = Toast.makeText(getActivity(), MoveToChat(valid, isPort(binding.editTextPort.getText().toString())), duration);
+    ChatFragment chatFragment = new ChatFragment();
 
 
     private boolean isNetworkAvailable()
@@ -109,27 +106,40 @@ public class JoinChatFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
-//        EditText IP = findViewById(R.id.editTextIP);
-//        EditText port = findViewById(R.id.editTextIP);
-//        Button btn = findViewById(R.id.button);
-
-
-
         view.findViewById(R.id.button).setOnClickListener(view1 -> {
-            Pattern pattern = Pattern.compile(IPV4_PATTERN_ALLOW_LEADING_ZERO);
-            Matcher match = pattern.matcher(binding.editTextIP.getText().toString());
-            boolean valid = match.matches();
 
-            Toast toast = Toast.makeText(getActivity(), MoveToChat(valid, isPort(binding.editTextPort.getText().toString())), duration);
             toast.show();
-
-
             if (MoveToChat(valid,isPort(binding.editTextPort.getText().toString())).equals("Connect successful"))
             {
+//                serverName = String.valueOf(binding.editTextIP.getText());
+//                serverPort = Integer.parseInt(String.valueOf(binding.editTextPort.getText()));
+//
+//                new Thread(() ->
+//                {
+//                    try
+//                    {
+//                        Socket socket = new Socket(serverName, serverPort);
+//                        MessageAdapter messageAdapter = new MessageAdapter();
+//                        BufferedReader br_input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//                        String message_from_server = br_input.readLine();
+//                        mListMessageFromSv.add(new Message(messageID++, message_from_server));
+//                        messageAdapter.setData(mListMessageFromSv);
+//                        chatFragment.sendMessage(mListMessageFromSv);
+//                    }
+//                    catch (IOException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                });
+
+
+
                 NavHostFragment.findNavController(JoinChatFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
+
+        binding.regServer.setOnClickListener(v -> NavHostFragment.findNavController(JoinChatFragment.this).navigate(R.id.action_FirstFragment_to_serverChatFragment));
     }
 
     @Override
@@ -139,4 +149,7 @@ public class JoinChatFragment extends Fragment
         binding = null;
     }
 
+
 }
+
+

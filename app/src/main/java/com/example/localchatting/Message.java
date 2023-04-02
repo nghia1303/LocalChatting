@@ -2,7 +2,7 @@ package com.example.localchatting;
 
 public class Message
 {
-    private String message;
+    private final String message;
     public int id;
     public Message(int id, String message)
     {
@@ -13,10 +13,5 @@ public class Message
     public String getMessage()
     {
         return this.message;
-    }
-
-    public void setMessage(String message)
-    {
-        this.message = message;
     }
 }
