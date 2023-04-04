@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activityChat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ServerChatFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_message"
+        android:layout_width="389dp"
+        android:layout_height="567dp"
+        android:layout_above="@+id/layout_bottom"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <EditText
+            android:id="@+id/edt_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/btn_send"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:hint="@string/hint_text"
+            android:autofillHints="message"
+            android:inputType="text"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/send_btn"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/connected_IP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/connected_port"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="343dp"
+        android:layout_marginBottom="10dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/connected_port"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rcv_message"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="344dp"
+        android:layout_marginBottom="11dp"
+        android:text="" />
+</RelativeLayout>
