@@ -7,15 +7,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.localchatting.databinding.FragmentFirstBinding;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,14 +24,57 @@ public class JoinChatFragment extends Fragment
 {
     private FragmentFirstBinding binding;
     private static final String IPV4_PATTERN_ALLOW_LEADING_ZERO = "(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}";
-    private final int messageID = -1;
-
     int duration = Toast.LENGTH_SHORT;
     Pattern pattern = Pattern.compile(IPV4_PATTERN_ALLOW_LEADING_ZERO);
-    Matcher match = pattern.matcher(binding.editTextIP.getText().toString());
-    boolean valid = match.matches();
-    Toast toast = Toast.makeText(getActivity(), MoveToChat(valid, isPort(binding.editTextPort.getText().toString())), duration);
-    ChatFragment chatFragment = new ChatFragment();
+    Toast toast;
+    boolean valid;
+    String textIP;
+    String textPort;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
+    }
+
+
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        TextView IP = view.findViewById(R.id.editTextIP);
+        TextView Port = view.findViewById(R.id.editTextPort);
+
+
+        view.findViewById(R.id.button).setOnClickListener(view1 -> {
+
+
+            textIP = IP.getText().toString();
+            textPort = Port.getText().toString();
+            Matcher match = pattern.matcher(textIP);
+            valid = match.matches();
+            toast = Toast.makeText(getActivity(), MoveToChat(valid, isPort(String.valueOf(textPort))), duration);
+
+            toast.show();
+            if (MoveToChat(valid, isPort(textPort)).equals("Connect successful"))
+            {
+                Bundle bundle = new Bundle();
+                bundle.putString("IP_ADDRESS", getIPAddress());
+                bundle.putInt("PORT_NUMBER", getPort());
+
+                ChatFragment chatFragment = new ChatFragment();
+                chatFragment.setArguments(bundle);
+                NavHostFragment.findNavController(JoinChatFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            }
+        });
+
+        binding.regServer.setOnClickListener(v -> NavHostFragment.findNavController(JoinChatFragment.this).navigate(R.id.action_FirstFragment_to_serverChatFragment));
+    }
+
+
 
 
     private boolean isNetworkAvailable()
@@ -60,15 +103,7 @@ public class JoinChatFragment extends Fragment
         return haveConnectedWifi || haveConnectedMobile;
     }
 
-    @Override
-    public View onCreateView(@NotNull
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    )
-    {
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
+
 
     public boolean isPort(String value)
     {
@@ -102,45 +137,7 @@ public class JoinChatFragment extends Fragment
 
 
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button).setOnClickListener(view1 -> {
-
-            toast.show();
-            if (MoveToChat(valid,isPort(binding.editTextPort.getText().toString())).equals("Connect successful"))
-            {
-//                serverName = String.valueOf(binding.editTextIP.getText());
-//                serverPort = Integer.parseInt(String.valueOf(binding.editTextPort.getText()));
-//
-//                new Thread(() ->
-//                {
-//                    try
-//                    {
-//                        Socket socket = new Socket(serverName, serverPort);
-//                        MessageAdapter messageAdapter = new MessageAdapter();
-//                        BufferedReader br_input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//                        String message_from_server = br_input.readLine();
-//                        mListMessageFromSv.add(new Message(messageID++, message_from_server));
-//                        messageAdapter.setData(mListMessageFromSv);
-//                        chatFragment.sendMessage(mListMessageFromSv);
-//                    }
-//                    catch (IOException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                });
-
-
-
-                NavHostFragment.findNavController(JoinChatFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-            }
-        });
-
-        binding.regServer.setOnClickListener(v -> NavHostFragment.findNavController(JoinChatFragment.this).navigate(R.id.action_FirstFragment_to_serverChatFragment));
-    }
 
     @Override
     public void onDestroyView()
@@ -149,7 +146,15 @@ public class JoinChatFragment extends Fragment
         binding = null;
     }
 
+    public String getIPAddress()
+    {
+        return textIP;
+    }
 
+    public int getPort()
+    {
+        return Integer.parseInt(textPort);
+    }
 }
 
 
