@@ -28,14 +28,16 @@
             android:id="@+id/edt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/btn_send"
-            android:layout_marginEnd="10dp"
             android:layout_centerVertical="true"
-            android:hint="@string/hint_text"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/btn_send"
             android:autofillHints="message"
+            android:hint="@string/hint_text"
             android:inputType="text"
+            android:minHeight="48dp"
             android:textColor="@android:color/black"
-            android:textSize="18sp"/>
+            android:textColorHint="#757575"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_send"
@@ -53,8 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/connected_port"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="343dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginEnd="342dp"
         android:layout_marginBottom="10dp"
         android:text="" />
 
@@ -63,8 +67,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rcv_message"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="344dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginEnd="342dp"
+        android:layout_marginBottom="20dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/member_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rcv_message"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="49dp"
         android:text="" />
 </RelativeLayout>
